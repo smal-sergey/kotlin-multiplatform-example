@@ -1,5 +1,6 @@
 package com.smalser.server
 
+import com.smalser.common.hello_multiplatform
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -34,6 +35,9 @@ fun Application.module() {
         get("/test") {
             call.respond(Payload("Hi there!"))
         }
+        get("/hello") {
+            call.respond(hello_multiplatform())
+        }
     }
 }
 
@@ -42,5 +46,9 @@ data class Payload(val message: String)
 
 @UnstableDefault
 fun main(args: Array<String>) {
-    embeddedServer(Netty, 8080, watchPaths = listOf("ServerAppKt"), module = Application::module).start()
+    embeddedServer(
+            Netty,
+            8080,
+            watchPaths = listOf("app-server"),
+            module = Application::module).start()
 }

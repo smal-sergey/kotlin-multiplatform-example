@@ -1,10 +1,14 @@
 plugins {
-    kotlin("jvm") version "1.3.72"
-    kotlin("plugin.serialization") version "1.3.72"
+    val kotlinVersion = "1.3.72"
+
+    kotlin("jvm") version kotlinVersion
+    kotlin("plugin.serialization") version kotlinVersion
 }
 
-val ktor_version = "1.3.2"
+val ktor_version by extra("1.3.2")
 dependencies {
+    api(project(":app-common"))
+
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("serialization"))
     implementation("io.ktor:ktor-server-core:$ktor_version")
