@@ -1,8 +1,6 @@
 plugins {
-    val kotlinVersion = "1.3.72"
-
-    kotlin("jvm") version kotlinVersion
-    kotlin("plugin.serialization") version kotlinVersion
+    kotlin("jvm")
+    kotlin("plugin.serialization")
 }
 
 val ktor_version by extra("1.3.2")
