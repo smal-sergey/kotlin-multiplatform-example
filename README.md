@@ -22,14 +22,16 @@ Some useful links:
 To import data classes from common multiplatform Gradle sub-project (`app-common`) into Korlin/JS sub-project (`app-client-web`) 
 two things needs to be done:
 1. In `app-client-web` add dependency to `app-common`:  
-```implementation(project(":app-common"))```
-2.  In `app-common`-s js target specify JS module
-(see [Kotlin JS Modules](https://kotlinlang.org/docs/reference/js-modules.html)) to be used during compilation 
-and platform into which to compile common Kotlin code:
+```implementation(project(":app-common"))```  
+At this point if you try to re-import gradle project you'll see:  
+Warning:<i><b>project ':app-client-web': Unable to build Kotlin project configuration</b>
+Details: org.gradle.internal.operations.BuildOperationQueueFailure: There was a failure while populating the build operation queue: project ':app-common' is not configured for JS usage
+Caused by: java.lang.IllegalStateException: project ':app-common' is not configured for JS usage</i>.  
+So to make it work, we do following...
+2.  In `app-common`-s js target specify platform into which to compile common Kotlin code:
 ```kotlin
 kotlin {
     js {
-         useCommonJs()
          browser()
      }
     //... other stuff    

@@ -13,7 +13,6 @@ kotlin {
 
     jvm()
     js {
-        useCommonJs()
         browser()
     }
 
