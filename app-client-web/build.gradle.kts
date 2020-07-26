@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-//    api(project(":app-common"))
+    implementation(project(":app-common"))
 
     implementation(kotlin("stdlib-js"))
     //React, React DOM + Wrappers (chapter 3)
@@ -27,4 +27,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.7")
 }
 
-kotlin.target.browser { }
+kotlin {
+    target {
+        browser()
+    }
+}

@@ -1,3 +1,5 @@
+import com.smalser.common.Game
+import com.smalser.common.hello_multiplatform
 import kotlinx.css.*
 import kotlinx.html.js.onClickFunction
 import react.*
@@ -32,6 +34,8 @@ external interface GameState : RState {
 
 class App : RComponent<RProps, GameState>() {
     override fun GameState.init() {
+        console.log("!!!!!!!!!!!!!! " + hello_multiplatform())
+        console.log("!!!!!!!!!!!!!! " + Game("Common data class"))
         reinit()
     }
 
