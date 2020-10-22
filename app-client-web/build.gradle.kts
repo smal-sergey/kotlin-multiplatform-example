@@ -3,32 +3,37 @@ plugins {
 }
 
 dependencies {
+    val reactVersion = "17.0.0"
+    val kotlinReactVersion = "17.0.0-pre.126-kotlin-1.4.10"
+    val styledVersion = "5.2.0"
+    val kotlinStyledVersion = "5.2.0-pre.126-kotlin-1.4.10"
+
     implementation(project(":app-common"))
 
     implementation(kotlin("stdlib-js"))
     //React, React DOM + Wrappers (chapter 3)
-    implementation("org.jetbrains:kotlin-react:16.13.1-pre.105-kotlin-1.3.72")
-    implementation("org.jetbrains:kotlin-react-dom:16.13.1-pre.105-kotlin-1.3.72")
-    implementation(npm("react", "16.13.1"))
-    implementation(npm("react-dom", "16.13.1"))
+    implementation("org.jetbrains:kotlin-react-dom:$kotlinReactVersion")
+    implementation("org.jetbrains:kotlin-react:$kotlinReactVersion")
+    implementation(npm("react", reactVersion))
+    implementation(npm("react-dom", reactVersion))
 
     //Kotlin Styled (chapter 3)
-    implementation("org.jetbrains:kotlin-styled:1.0.0-pre.110-kotlin-1.3.72")
-    implementation(npm("styled-components"))
-    implementation(npm("inline-style-prefixer"))
+    implementation("org.jetbrains:kotlin-styled:$kotlinStyledVersion")
+    implementation(npm("styled-components", version = styledVersion))
+    implementation(npm("inline-style-prefixer", version = "6.0.0"))
 
     //Video Player (chapter 7)
-    implementation(npm("react-player"))
+    implementation(npm("react-player", version = "2.6.2"))
 
     //Share Buttons (chapter 7)
-    implementation(npm("react-share"))
+    implementation(npm("react-share", version = "4.3.1"))
 
     //Coroutines (chapter 8)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.7")
 }
 
 kotlin {
-    target {
+    js {
         browser()
     }
 }

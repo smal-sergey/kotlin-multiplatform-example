@@ -3,7 +3,7 @@ plugins {
     kotlin("plugin.serialization")
 }
 
-val ktor_version by extra("1.3.2")
+val ktor_version by extra("1.4.0")
 dependencies {
     api(project(":app-common"))
 
@@ -12,7 +12,7 @@ dependencies {
     implementation("io.ktor:ktor-server-core:$ktor_version")
     implementation("io.ktor:ktor-server-netty:$ktor_version")
     implementation("io.ktor:ktor-serialization:$ktor_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0")
     implementation("ch.qos.logback:logback-classic:1.2.3")
 }
 
