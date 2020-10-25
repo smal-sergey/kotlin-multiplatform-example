@@ -1,3 +1,11 @@
+data class Card(val points: Int, val name: String)
+data class Hand(val name: String, val cards: MutableList<Card>) {
+    fun score() = cards.map { it.points }.sum()
+    fun addCard(card: Card) {
+        cards.add(card)
+    }
+}
+
 class Deck() {
     private val deck: MutableList<Card> = newDeck()
 
