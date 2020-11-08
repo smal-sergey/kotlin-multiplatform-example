@@ -21,17 +21,20 @@ interface LoginProps : RProps {
 
 interface LoginState : RState {
     var name: String
+    var submitDisabled: Boolean
 }
 
 class LoginComponent : RComponent<LoginProps, LoginState>() {
     override fun LoginState.init() {
         name = ""
+        submitDisabled = true
     }
 
     private fun handleInputChange(event: Event) {
         val target = event.target as HTMLInputElement
         setState {
             name = target.value
+            submitDisabled = name.isBlank()
         }
     }
 
@@ -64,6 +67,7 @@ class LoginComponent : RComponent<LoginProps, LoginState>() {
                     input {
                         attrs.type = InputType.submit
                         attrs.value = "Submit"
+                        attrs.disabled = state.submitDisabled
                     }
                 }
             }

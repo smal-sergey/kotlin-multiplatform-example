@@ -1,6 +1,9 @@
 import com.smalser.common.Game
 import com.smalser.common.hello_multiplatform
-import kotlinx.css.*
+import kotlinx.css.Color
+import kotlinx.css.Display
+import kotlinx.css.color
+import kotlinx.css.display
 import kotlinx.html.js.onClickFunction
 import react.*
 import react.dom.button
@@ -17,7 +20,7 @@ enum class Status {
 }
 
 interface TableProps : RProps {
-//    var visible: Boolean = true
+    var onStatusChange: (newStatus: Status) -> Unit
 }
 
 interface TableState : RState {
@@ -43,27 +46,8 @@ class TableComponent : RComponent<TableProps, TableState>() {
     }
 
     override fun RBuilder.render() {
+        console.info("Rendering game table for current status: ${state.status}")
         div {
-            div {
-                styledH2 {
-                    when (state.status) {
-                        Status.LOST -> {
-                            +"You lost!"
-                            css.color = Color.red
-                        }
-                        Status.WON -> {
-                            +"You won!"
-                            css.color = Color.green
-                        }
-                        Status.PUSH -> {
-                            +"Push, no one wins!"
-                        }
-                        else -> {
-                        }
-                    }
-                }
-            }
-
             styledDiv {
                 css {
                     display = Display.flex
@@ -86,12 +70,17 @@ class TableComponent : RComponent<TableProps, TableState>() {
                         setState {
                             playerHand.addCard(state.deck.random())
 
-                            if (playerHand.score() == 21) {
-                                status = Status.WON
+                            val score = playerHand.score()
+                            val newStatus = when {
+                                (score == 21) -> Status.WON
+                                (score > 21) -> Status.LOST
+                                else -> status
                             }
-                            if (playerHand.score() > 21) {
-                                status = Status.LOST
+                            if (newStatus != status) {
+                                status = newStatus
+                                props.onStatusChange(newStatus)
                             }
+                            console.info("playerHand.score()=$score newStatus=$newStatus")
                         }
                     }
                 }
@@ -105,15 +94,21 @@ class TableComponent : RComponent<TableProps, TableState>() {
                             }
                             val dealerScore = dealerHand.score()
                             val playerScore = playerHand.score()
-                            if (dealerScore > 21 || dealerScore < playerScore) {
-                                status = Status.WON
-                            } else if (dealerScore == playerScore) {
-                                status = Status.PUSH
-                            } else if (dealerScore > playerScore) {
-                                status = Status.LOST
-                            } else {
-                                console.error("Unknown situation! Dealer score:$dealerScore, Player score: $playerScore")
+                            val newStatus = when {
+                                (dealerScore > 21 || dealerScore < playerScore) -> Status.WON
+                                (dealerScore == playerScore) -> Status.PUSH
+                                (dealerScore > playerScore) -> Status.LOST
+                                else -> {
+                                    console.error("Unknown situation! Dealer score:$dealerScore, Player score: $playerScore")
+                                    status
+                                }
                             }
+
+                            if (newStatus != status) {
+                                status = newStatus
+                                props.onStatusChange(newStatus)
+                            }
+                            console.info("playerScore=$playerScore, dealerScore=$dealerScore, newStatus=$newStatus")
                         }
                     }
                 }
@@ -126,11 +121,31 @@ class TableComponent : RComponent<TableProps, TableState>() {
                     }
                 }
             }
+
+            div {
+                styledH2 {
+                    when (state.status) {
+                        Status.LOST -> {
+                            +"You lost!"
+                            css.color = Color.red
+                        }
+                        Status.WON -> {
+                            +"You won!"
+                            css.color = Color.green
+                        }
+                        Status.PUSH -> {
+                            +"Push, no one wins!"
+                        }
+                        else -> {
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
-fun RBuilder.table(handler: TableProps.() -> Unit): ReactElement {
+fun RBuilder.gameTable(handler: TableProps.() -> Unit): ReactElement {
     return child(TableComponent::class) {
         attrs(handler)
     }

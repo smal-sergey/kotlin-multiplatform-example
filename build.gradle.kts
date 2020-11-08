@@ -1,4 +1,5 @@
 plugins {
+    idea
     val kotlinVersion = "1.4.10"
 
     kotlin("js") version kotlinVersion apply false
