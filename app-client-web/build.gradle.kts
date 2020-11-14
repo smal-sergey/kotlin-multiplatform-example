@@ -41,11 +41,19 @@ dependencies {
 //    implementation("io.ktor:ktor-client-serialization-js:$ktorVersion")
     implementation(kotlin("serialization"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0")
+
+    testImplementation(kotlin("test-js"))
 }
 
 kotlin {
     js {
-        browser()
+        browser {
+            testTask {
+                useKarma {
+                    useChromeHeadless()
+                }
+            }
+        }
     }
 }
 

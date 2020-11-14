@@ -40,8 +40,8 @@ class TableComponent : RComponent<TableProps, TableState>() {
     private fun TableState.reinit() {
         console.log("Initializing state")
         deck = Deck()
-        playerHand = Hand("My hand", mutableListOf(deck.random(), deck.random()))
-        dealerHand = Hand("Dealer hand", mutableListOf(deck.random(), deck.random()))
+        playerHand = Hand("My hand", mutableListOf(deck.getRandomCard(), deck.getRandomCard()))
+        dealerHand = Hand("Dealer hand", mutableListOf(deck.getRandomCard(), deck.getRandomCard()))
         status = Status.IN_GAME
     }
 
@@ -68,7 +68,7 @@ class TableComponent : RComponent<TableProps, TableState>() {
                     attrs.disabled = state.status != Status.IN_GAME
                     attrs.onClickFunction = {
                         setState {
-                            playerHand.addCard(state.deck.random())
+                            playerHand.addCard(state.deck.getRandomCard())
 
                             val score = playerHand.score()
                             val newStatus = when {
@@ -90,7 +90,7 @@ class TableComponent : RComponent<TableProps, TableState>() {
                     attrs.onClickFunction = {
                         setState {
                             while (dealerHand.score() < 17) {
-                                dealerHand.addCard(deck.random())
+                                dealerHand.addCard(deck.getRandomCard())
                             }
                             val dealerScore = dealerHand.score()
                             val playerScore = playerHand.score()
