@@ -4,12 +4,15 @@ plugins {
     kotlin("plugin.serialization")
 }
 
-//val ktorVersion by extra("1.4.0")
+val kotlinxSerializationVersion = project.property("kotlinx.serialization.version") as String
+val kotlinxCoroutinesVersion = project.property("kotlinx.coroutines.version") as String
+val kotlinWrappersSuffix = project.property("kotlin.wrappers.suffix") as String
+val reactVersion = "17.0.0"
+val kotlinReactVersion = "$reactVersion-pre.126-kotlin-$kotlinWrappersSuffix"
+val styledVersion = "5.2.0"
+val kotlinStyledVersion = "5.2.0-pre.126-kotlin-$kotlinWrappersSuffix"
+
 dependencies {
-    val reactVersion = "17.0.0"
-    val kotlinReactVersion = "17.0.0-pre.126-kotlin-1.4.10"
-    val styledVersion = "5.2.0"
-    val kotlinStyledVersion = "5.2.0-pre.126-kotlin-1.4.10"
 
     implementation(project(":app-common"))
 
@@ -32,15 +35,10 @@ dependencies {
     implementation(npm("react-share", version = "4.3.1"))
 
     //Coroutines (chapter 8)
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:1.3.7")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$kotlinxCoroutinesVersion")
 
-//may be migrate to Ktor JS client in future
-//    implementation("io.ktor:ktor-client-js:$ktorVersion")
-//    implementation("io.ktor:ktor-client-json:$ktorVersion")
-//    implementation("io.ktor:ktor-client-json-js:$ktorVersion")
-//    implementation("io.ktor:ktor-client-serialization-js:$ktorVersion")
     implementation(kotlin("serialization"))
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
 
     testImplementation(kotlin("test-js"))
 }

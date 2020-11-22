@@ -4,6 +4,7 @@ import com.smalser.common.Game
 import com.smalser.common.Statistics
 import com.smalser.server.repo.GamesRepo
 import io.ktor.application.*
+import io.ktor.http.content.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.util.*
@@ -30,5 +31,13 @@ fun Routing.games(repo: GamesRepo) {
             val sortedGames: List<Game> = games.filter { it.gamesPlayed > 0 }.sortedByDescending { game -> game.rating }
             call.respond(Statistics(sortedGames))
         }
+    }
+}
+
+@KtorExperimentalAPI
+fun Routing.static() {
+    static("/") {
+        resources("web")
+        defaultResource("web/index.html")
     }
 }

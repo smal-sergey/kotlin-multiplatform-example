@@ -3,15 +3,13 @@ plugins {
     kotlin("plugin.serialization")
 }
 
-group = "com.smalser"
-version = "1.0-SNAPSHOT"
-
 repositories {
     mavenCentral()
 }
 
-kotlin {
+val kotlinxSerializationVersion = project.property("kotlinx.serialization.version") as String
 
+kotlin {
     jvm()
     js {
         browser()
@@ -23,7 +21,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("serialization"))
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
             }
         }
 

@@ -37,6 +37,7 @@ fun Application.module() {
     }
     install(Routing) {
         games(InMemoryGamesRepo())
+        static()
     }
 }
 
@@ -45,7 +46,8 @@ fun main() {
     embeddedServer(
         Netty,
         8081,
-        watchPaths = listOf("app-server"),
+        //doesn't work for JARs, probably config file should be used instead: https://ktor.io/docs/autoreload.html#configuration-file
+//        watchPaths = listOf("app-server"),
         module = Application::module
     ).start()
 }
